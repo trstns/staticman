@@ -1,29 +1,27 @@
 <img src="logo.png" width="300">
 
-# Staticman [![coverage](https://img.shields.io/badge/coverage-81%25-yellow.svg?style=flat)](https://github.com/eduardoboucas/staticman) [![Build Status](https://travis-ci.org/eduardoboucas/staticman.svg?branch=master)](https://travis-ci.org/eduardoboucas/staticman) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-airbnb-brightgreen.svg)](https://github.com/airbnb/javascript)
+# Staticman [![coverage](https://img.shields.io/badge/coverage-81%25-yellow.svg?style=flat)](https://github.com/eduardoboucas/staticman) [![Build Status](https://travis-ci.org/eduardoboucas/staticman.svg?branch=master)](https://travis-ci.org/eduardoboucas/staticman) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 > Static sites with superpowers
 
 ## Introduction
 
-Staticman is a Node.js application that receives user-generated content and uploads it as data files to a GitHub and/or GitLab repository. In practice, this allows you to have dynamic content (e.g. blog post comments) as part of a fully static website, as long as your site automatically deploys on every push to GitHub and/or GitLab, as seen on [GitHub Pages](https://pages.github.com/), [GitLab Pages](https://about.gitlab.com/product/pages/), [Netlify](http://netlify.com/) and others.
+Staticman is a Node.js application that receives user-generated content and uploads it as data files to a GitHub repository. In practice, this allows you to have dynamic content (e.g. blog post comments) as part of a fully static website, as long as your site automatically deploys on every push to GitHub, as seen on [GitHub Pages](https://pages.github.com/), [Netlify](http://netlify.com/) and others.
 
 It consists of a small web service that handles the `POST` requests from your forms, runs various forms of validation and manipulation defined by you and finally pushes them to your repository as data files. You can choose to enable moderation, which means files will be pushed to a separate branch and a pull request will be created for your approval, or disable it completely, meaning that files will be pushed to the main branch automatically.
 
-You can download and run the Staticman API on your own infrastructure. The easiest way to get a personal Staticman API instance up and running is to use the free tier of Heroku. If deploying to Heroku you can simply click the button below and enter your config variables directly into Heroku as environment variables.
+You can download and run the Staticman API on your own infrastructure. The easiest way to get a personal Staticman API instance up and running is to use the free tier of Heroku. If deploying to Heroku you can simply click the button below.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Requirements
 
-- Node.js 14.15.1+
+- Node.js 8.11.3+
 - npm
-- A [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) for the GitHub and/or GitLab account you want to run Staticman with
-- An RSA key in PEM format
+- A [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) for the GitHub account you want to run Staticman with
+- An SSH key (click [here](https://help.github.com/articles/connecting-to-github-with-ssh/) to learn how to create one)
 
-## Setting up the server on your own infrastructure
-
-NOTE: The below steps are not required if deploying to Heroku. To deploy to Heroku, click the above deploy button and enter your configuration variables in the Heroku Dashboard.
+## Setting up the server
 
 - Clone the repository and install the dependencies via npm.
 
@@ -36,10 +34,10 @@ NOTE: The below steps are not required if deploying to Heroku. To deploy to Hero
 - Create a development config file from the sample file.
 
   ```
-  cp config/sample.json config/development.json
+  cp config.sample.json config.development.json
   ```
 
-- Edit the newly-created config file with your GitHub and/or GitLab access token, SSH private key and the port to run the server. Click [here](https://staticman.net/docs/api) for the list of available configuration parameters.
+- Edit the newly-created config file with your GitHub access token, SSH private key and the port to run the server. Click [here](https://staticman.net/docs/api) for the list of available configuration parameters.
 
 - Start the server.
 
@@ -53,19 +51,17 @@ Check [this guide](docs/docker.md) if you're using Docker.
 
 ## Setting up a repository
 
-Staticman runs as a bot using a GitHub and/or GitLab account, as opposed to accessing your account using the traditional OAuth flow. This means that you can give it access to just the repositories you're planning on using it on, instead of exposing all your repositories.
+Staticman runs as a bot using a GitHub account, as opposed to accessing your account using the traditional OAuth flow. This means that you can give it access to just the repositories you're planning on using it on, instead of exposing all your repositories.
 
 To add Staticman to a repository, you need to add the bot as a collaborator with write access to the repository and ask the bot to accept the invite by firing a `GET` request to this URL:
 
 ```
-http://your-staticman-url/v3/connect/GITHUB-USERNAME/GITHUB-REPOSITORY
+http://your-staticman-url/v2/connect/GITHUB-USERNAME/GITHUB-REPOSITORY
 ```
-
-The full Staticman API documentation [can be found here](https://api.staticman.net/api-docs).
 
 ## Site configuration
 
-Staticman will look for a config file. For the deprecated `v1` endpoints, this is a `_config.yml` with a `staticman` property inside; for `v2` endpoints, Staticman looks for a `staticman.yml` file at the root of the repository.
+Staticman will look for a config file. For the deprecated `v1` endpoints, this is a  `_config.yml` with a `staticman` property inside; for `v2` endpoints, Staticman looks for a `staticman.yml` file at the root of the repository.
 
 For a list of available configuration parameters, please refer to the [documentation page](https://staticman.net/docs/configuration).
 
@@ -75,13 +71,10 @@ Would you like to contribute to Staticman? That's great! Here's how:
 
 1. Read the [contributing guidelines](CONTRIBUTING.md)
 1. Pull the repository and start hacking
-1. Run the dev server with `npm start-dev`
-1. Generated API docs are accessible at the `/api-docs` endpoint
 1. Make sure tests are passing by running `npm test`
 1. Send a pull request and celebrate
 
 ## Useful links
 
-- [Detailed Site and API Setup Guide](https://travisdowns.github.io/blog/2020/02/05/now-with-comments.html)
 - [Improving Static Comments with Jekyll & Staticman](https://mademistakes.com/articles/improving-jekyll-static-comments/)
-- [Hugo + Staticman: Nested Replies and E-mail Notifications](https://networkhobo.com/2017/12/30/hugo-staticman-nested-replies-and-e-mail-notifications/)
+- [Hugo + Staticman: Nested Replies and E-mail Notifications](https://networkhobo.com/2017/12/30/hugo---staticman-nested-replies-and-e-mail-notifications/)
